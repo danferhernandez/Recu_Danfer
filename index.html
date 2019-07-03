@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+    <link rel="stylesheet" href="recu/Chart.min.css">
+    <script src="recu/Chart.min.js"> </script>
+</head>
+
+<body background="recu/fn3.png" style="background-size: cover; background-repeat: no-repeat"> 
+    <div class="container c">
+        <div id="auto">
+            <h1>Automoviles</h1>
+            <label for="colFormLabel" class="label label-success">Marca</label>
+            <select class="browser-default custom-select" id="autom">
+                <option value="1">Audi</option>
+                <option value="2">Toyota</option>
+                <option value="3">Nissan</option>
+                <option value="4">Mitsubishi</option>
+            </select>
+            <button type="button" class="btn btn-success" style="margin-right: 5%; margin-top: 1%"
+                onclick="enviar()">Enviar</button>
+        </div>
+        <div class="container" style="margin-top: 1%; background-color: orange">
+            <hr>
+            <h3>Resultados:</h3>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Audi</span>
+                </div>
+                <input type="text" class="form-control" aria-label="Default"
+                    aria-describedby="inputGroup-sizing-default" id="vaudi">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Toyota</span>
+                </div>
+                <input type="text" class="form-control" aria-label="Default"
+                    aria-describedby="inputGroup-sizing-default" id="vtoyota">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Nissan</span>
+                </div>
+                <input type="text" class="form-control" aria-label="Default"
+                    aria-describedby="inputGroup-sizing-default" id="vnissan">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Mitsubishi</span>
+                </div>
+                <input type="text" class="form-control" aria-label="Default"
+                    aria-describedby="inputGroup-sizing-default" id="vmit">
+            </div>
+            <hr>
+        </div>
+        <div class="container" style="background-color: lightblue">
+            <h3 class="h3">Grafico Total</h3>
+            <canvas id="myChart"></canvas>
+        </div>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        function view(obj) {
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Audi', 'Toyota', 'Nissan', 'Mitsubitsy'],
+                    datasets: [{
+                        label: '* Grafico de Resultados *',
+                        data: [obj.audi, obj.toyota, obj.nissan, obj.mitsubishi],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+    </script>
+    <script>
+        var obj = new Object();
+        obj.audi = 0;
+        obj.toyota = 0;
+        obj.nissan = 0;
+        obj.mitsubishi = 0;
+        function enviar() {
+            if ($("#autom").val() == "1") {
+                obj.audi++;
+                document.getElementById("vaudi").value = "" + obj.audi + "";
+                view(obj);
+            } else {
+                if ($("#autom").val() == "2") {
+                    obj.toyota++;
+                    document.getElementById("vtoyota").value = "" + obj.toyota + "";
+                    view(obj);
+                } else {
+                    if ($("#autom").val() == "3") {
+                        obj.nissan++;
+                        document.getElementById("vnissan").value = "" + obj.nissan + "";
+                        view(obj);
+                    } else {
+                        obj.mitsubishi++;
+                        document.getElementById("vmit").value = "" + obj.mitsubishi + "";
+                        view(obj);
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
